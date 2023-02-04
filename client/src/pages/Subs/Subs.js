@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { InputGroup } from "react-bootstrap";
+import { InputGroup, Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import styles from "./frame1.css";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -13,7 +13,6 @@ import { toastmessage } from "../../components/ToastMessage/toast";
 import moment from "moment";
 import axios from "axios";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-
 const Subs = () => {
   const [multiDate, setMultiDate] = useState([]);
   const [startDate, setStartDate] = useState();
@@ -82,10 +81,27 @@ const Subs = () => {
   const [addedMeal, setAddedMeal] = useState([]);
   const format = "YYYY-MM-DD";
   const [dates, setDates] = useState([]);
+  const [list, setList] = useState([]);
+  const [total,setTotal]=useState([]);
   dates.map((item) => {
     console.log(item.format());
   });
-
+  useEffect(() => {
+    const GetAllCategory = async () => {
+      await axios
+        .get(`http://localhost:8001/api/meals/lookups/mealCategory/getAll`)
+        .then((res) => {
+          const categoryList = res.data.map((data) => {
+            return { ...data, id: data._id, name: data.categoryName };
+          });
+          setList(categoryList);
+        });
+    };
+    GetAllCategory();
+  }, []);
+  console.log("Category",list);
+  
+   
   // console.log(protein)
   // console.log(calorie)
 
@@ -191,142 +207,8 @@ const Subs = () => {
       )
     );
   };
+  console.log("SUNDAY MEAL INPUT",sundayMeal)
 
-  const getValues = () => {
-    const chickenSunday = sundayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenMonday = mondayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenTuesday = tuesdayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenWednesday = wednesdayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenThursday = thursdayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenFriday = fridayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-    const chickenSatursday = satursdayMeal.filter(
-      ({ mealName }) => mealName == "Chicken"
-    );
-
-    const sumChickenSunday =
-      chickenSunday.length === 0 ? 0 : chickenSunday[0].inputValue;
-    const sumChickenMonday =
-      chickenMonday.length === 0 ? 0 : chickenMonday[0].inputValue;
-    const sumChickenTuesday =
-      chickenTuesday.length === 0 ? 0 : chickenTuesday[0].inputValue;
-    const sumChickenWednesday =
-      chickenWednesday.length === 0 ? 0 : chickenWednesday[0].inputValue;
-    const sumChickenThursday =
-      chickenThursday.length === 0 ? 0 : chickenThursday[0].inputValue;
-    const sumChickenFriday =
-      chickenFriday.length === 0 ? 0 : chickenFriday[0].inputValue;
-    const sumChickenSatursday =
-      chickenSatursday.length === 0 ? 0 : chickenSatursday[0].inputValue;
-
-    const totalChicken =
-      sumChickenSunday +
-      sumChickenMonday +
-      sumChickenTuesday +
-      sumChickenWednesday +
-      sumChickenThursday +
-      sumChickenFriday +
-      sumChickenSatursday;
-    setSumChicken(totalChicken);
-
-    const beefSunday = sundayMeal.filter(({ mealName }) => mealName == "Beef");
-    const beefMonday = mondayMeal.filter(({ mealName }) => mealName == "Beef");
-    const beefTuesday = tuesdayMeal.filter(
-      ({ mealName }) => mealName == "Beef"
-    );
-    const beefWednesday = wednesdayMeal.filter(
-      ({ mealName }) => mealName == "Beef"
-    );
-    const beefThursday = thursdayMeal.filter(
-      ({ mealName }) => mealName == "Beef"
-    );
-    const beefFriday = fridayMeal.filter(({ mealName }) => mealName == "Beef");
-    const beefSatursday = satursdayMeal.filter(
-      ({ mealName }) => mealName == "Beef"
-    );
-
-    const sumBeefSunday =
-      beefSunday.length === 0 ? 0 : beefSunday[0].inputValue;
-    const sumBeefMonday =
-      beefMonday.length === 0 ? 0 : beefMonday[0].inputValue;
-    const sumBeefTuesday =
-      beefTuesday.length === 0 ? 0 : beefTuesday[0].inputValue;
-    const sumBeefWednesday =
-      beefWednesday.length === 0 ? 0 : beefWednesday[0].inputValue;
-    const sumBeefThursday =
-      beefThursday.length === 0 ? 0 : beefThursday[0].inputValue;
-    const sumBeefFriday =
-      beefFriday.length === 0 ? 0 : beefFriday[0].inputValue;
-    const sumBeefSatursday =
-      beefSatursday.length === 0 ? 0 : beefSatursday[0].inputValue;
-
-    const totalBeef =
-      sumBeefSunday +
-      sumBeefMonday +
-      sumBeefTuesday +
-      sumBeefWednesday +
-      sumBeefThursday +
-      sumBeefFriday +
-      sumBeefSatursday;
-    setSumBeef(totalBeef);
-    const breakSunday = sundayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakMonday = mondayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakTuesday = tuesdayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakWednesday = wednesdayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakThursday = thursdayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakFriday = fridayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-    const breakSatursday = satursdayMeal.filter(
-      ({ mealName }) => mealName == "Breakfast"
-    );
-
-    const sumBreakSunday =
-      breakSunday.length === 0 ? 0 : breakSunday[0].inputValue;
-    const sumBreakMonday =
-      breakMonday.length === 0 ? 0 : breakMonday[0].inputValue;
-    const sumBreakTuesday =
-      breakTuesday.length === 0 ? 0 : breakTuesday[0].inputValue;
-    const sumBreakWednesday =
-      breakWednesday.length === 0 ? 0 : breakWednesday[0].inputValue;
-    const sumBreakThursday =
-      breakThursday.length === 0 ? 0 : breakThursday[0].inputValue;
-    const sumBreakFriday =
-      breakFriday.length === 0 ? 0 : breakFriday[0].inputValue;
-    const sumBreakSatursday =
-      breakSatursday.length === 0 ? 0 : breakSatursday[0].inputValue;
-
-    const totalBreakFast =
-      sumBreakSunday +
-      sumBreakMonday +
-      sumBreakTuesday +
-      sumBreakWednesday +
-      sumBreakThursday +
-      sumBreakFriday +
-      sumBreakSatursday;
-    setSumBreakfast(totalBreakFast);
-  };
 
   console.log("Sunday Meal", sundayMeal);
   console.log("Monday Meal", mondayMeal);
@@ -336,6 +218,39 @@ const Subs = () => {
   console.log("Friday Meal", fridayMeal);
   console.log("Satursday Meal", satursdayMeal);
   console.log("Sunday Meal", sundayMeal);
+  var mealObjectAll = [];
+  sundayMeal.map((item)=> mealObjectAll.push(item));
+  mondayMeal.map((item)=> mealObjectAll.push(item));
+  tuesdayMeal.map((item)=> mealObjectAll.push(item));
+  wednesdayMeal.map((item)=> mealObjectAll.push(item));
+  thursdayMeal.map((item)=> mealObjectAll.push(item));
+  fridayMeal.map((item)=> mealObjectAll.push(item));
+  satursdayMeal.map((item)=> mealObjectAll.push(item));
+  console.log("Meal oBJECT",mealObjectAll)
+// console.log("ALL MEALS",mealObjectAll)
+const getValues1=()=>{
+   
+    const res = Array.from(mealObjectAll.reduce(
+      (m, {mealName, inputValue}) => m.set(mealName, (m.get(mealName) || 0) + inputValue), new Map
+    ), ([mealName, inputValue]) => ({mealName, inputValue}));
+    setTotal(res);
+    console.log(res)
+  // mealObjectAll.reduce((acc, curr) => {
+  //   let findIndex = acc.findIndex(item => item.mealName === curr.mealName);
+  
+  //   if (findIndex === -1) {
+  //     acc.push(curr)
+  //   } else {
+  
+  //     acc[findIndex].inputValue += curr.inputValue
+  //   }
+  //   console.log(acc)
+  //   setTotal(acc);
+  //   // return acc;
+  // }, [])
+  // console.log("SUMM ALL",sumAll)
+}
+console.log("Total",total);
 
   const removeMondayMenu = (index) => {
     const newMenu = mondayMeal.filter((_, i) => i !== index);
@@ -398,15 +313,6 @@ const Subs = () => {
     return { categoryName: item.mealName };
   });
 
-  // const setAllStates =()=>{
-  //   setThursdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:thursdayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setFridayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:fridayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setSatursdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:satursdayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setSundayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:sundayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setMondayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:mondayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setTuesdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:tuesdayMealObject,targetProtien:protein,targetCalories:calorie})
-  //  setWednesdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:wednesdayMealObject,targetProtien:protein,targetCalories:calorie});
-  // }
 
   console.log("Sunday Meal Object ", sundayMealObject);
   console.log("Monday Meal Object ", mondayMealObject);
@@ -416,13 +322,10 @@ const Subs = () => {
   console.log("Friday Meal Object ", fridayMealObject);
   console.log("Satursday Meal Object ", satursdayMealObject);
   console.log("Sunday Meal Object ", sundayMealObject);
-  // console.log(days)
-  // const mealObject = [...sundayMealObject,...mondayMealObject,...tuesdayMealObject,...wednesdayMealObject,...thursdayMealObject,...fridayMealObject,...satursdayMealObject];
-  // console.log(mealObject)
+ 
   console.log("Before Sunday Meal Object", sundayMealObject);
   const AddSubscriptions = async () => {
-    // setAllStates()
-    // ADDING DAYS BASED ON SUBSCRIPTION
+    
     const weekday = [
       "Sunday",
       "Monday",
@@ -602,48 +505,6 @@ const Subs = () => {
     console.log("NEW friday MEAL OBJECT", fridayMealObject);
     console.log("NEW satursday MEAL OBJECT", satursdayMealObject);
 
-    // if(currentWeekDay == 'Thursday'){
-    //     console.log(startDate);
-
-    //     if(thursdayMealObject.length != 0  && finalWednesdayObject.categories.length == 0 && counter != subDay){
-
-    //         setThursdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:thursdayMealObject,targetProtien:protein,targetCalories:calorie})
-    //         console.log(thursdayMealObject)
-    //         console.log(finalThursdayObject)
-    //         console.log("set thuesday")
-    //         setCount(count => count+1);
-    //     }
-    //     if(fridayMealObject.length != 0 && finalFridayObject.categories.length == 0 && counter != subDay){
-    //        setFridayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:fridayMealObject,targetProtien:protein,targetCalories:calorie})
-    //        setCount(count => count+1);
-
-    //    }
-    //     if(satursdayMealObject.length != 0 && finalSatursdayObject.categories.length == 0 && counter != subDay){
-    //        setSatursdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:satursdayMealObject,targetProtien:protein,targetCalories:calorie})
-    //        setCount(count => count+1);
-
-    //    }
-    //     if(sundayMealObject.length != 0 && finalSundayObject.categories.length == 0 && counter != subDay){
-    //        setSundayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:sundayMealObject,targetProtien:protein,targetCalories:calorie})
-    //        setCount(count => count+1);
-
-    //    }
-    //     if(mondayMealObject.length != 0 && finalMondayObject.categories.length == 0 && counter != subDay){
-    //       setMondayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:mondayMealObject,targetProtien:protein,targetCalories:calorie})
-    //       setCount(count => count+1);
-
-    //    }
-    //     if(tuesdayMealObject.length != 0 && finalTuesdayObject.categories.length == 0 && counter != subDay){
-    //       setTuesdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:tuesdayMealObject,targetProtien:protein,targetCalories:calorie})
-    //       setCount(count => count+1);
-    //    }
-    //    if(wednesdayMealObject.length != 0 && finalWednesdayObject.categories.length == 0 && counter != subDay){
-    //           setWednesdayObject({date:moment(startDate).format("YYYY-DD-MM"),categories:wednesdayMealObject,targetProtien:protein,targetCalories:calorie});
-    //         console.log("set wednesday")
-    //         setCount(count => count+1);
-    //     }
-
-    // }
     const arr = [];
     // console.log(mondayMealObject);
     if (currentWeekDay == "Monday") {
@@ -1386,14 +1247,13 @@ const Subs = () => {
     };
     console.log(addSubs);
     const header = { "Content-Type": "application/json" };
-
-    // await axios.post("http://localhost:8001/api/subscriptions/addbulksubscriptions",addSubs).then((res) => {
-    //     toastmessage("New Subscription is Created!", "success");
-    //   })
-    //   .catch((err) => {
-    //     toastmessage(err.response.data.error, "error");
-    //   });
-    // window.location.reload();
+ await axios.post("http://localhost:8001/api/subscriptions/addbulksubscriptions",addSubs).then((res) => {
+        toastmessage("New Subscription is Created!", "success");
+      })
+      .catch((err) => {
+        toastmessage(err.response.data.error, "error");
+      });
+    window.location.reload();
   };
   return (
     <div className="backgroundColor">
@@ -1416,7 +1276,6 @@ const Subs = () => {
           <Row>
             <h6>Enter Start Date</h6>
 
-            {/* <DatePicker  onChange={date => setStartDate(moment(date).format("YYYY-MM-DD"))} placeholder="Select Start Date" /> */}
             <input
               type="date"
               onChange={(e) => setStartDate(e.target.value)}
@@ -1426,7 +1285,6 @@ const Subs = () => {
           <Row className="datePicker" style={{ paddingTop: "10px" }}>
             <h6>Enter Skip Dates</h6>
 
-            {/* <DatePicker value={multiDate} onChange={handleMultiDateSkip}  placeholder="Select Skip Dates" /> */}
             <DatePicker
               value={dates}
               onChange={setDates}
@@ -1485,19 +1343,35 @@ const Subs = () => {
             Last Subscriptions date:
           </Row>
           <Row>
-            <Col>Total Chicken:</Col>
-            <Col>{sumChicken}</Col>
-          </Row>
-          <Row>
-            <Col>Total Beef:</Col>
-            <Col>{sumBeef}</Col>
-          </Row>
-          <Row>
-            <Col>Total Breakfast:</Col>
-            <Col>{sumBreakfast}</Col>
-          </Row>
+              <Col>
+                   
+                <Table>
+                  {list.map(({ id, name }) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          
+                          <td>{name}</td>
+                          {total.map((item)=>{
+                            if(item.mealName == name){
+                              return (
+                                <tr>
+                                      <td>{item.inputValue}</td>
+                                  </tr>
+                              )
+                            }
+                          })}
+
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                  </Table>
+              </Col>
+            </Row>
+         
           <Col>
-            <Button onClick={getValues} variant="success">
+            <Button onClick={()=> {getValues1();}} variant="success">
               Calculate
             </Button>
           </Col>
