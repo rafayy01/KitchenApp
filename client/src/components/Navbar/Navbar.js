@@ -22,6 +22,9 @@ function NavBar() {
             <Link to="subs" className="link m-1">
               <span >Subs</span>
             </Link>
+            <Link to="cookinground" className="link m-1">
+              <span >CookingRound</span>
+            </Link>
           </Nav>
         </Container>
       </Navbar>

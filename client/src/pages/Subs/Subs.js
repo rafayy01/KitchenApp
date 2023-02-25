@@ -82,7 +82,7 @@ const Subs = () => {
   const format = "YYYY-MM-DD";
   const [dates, setDates] = useState([]);
   const [list, setList] = useState([]);
-  const [total,setTotal]=useState([]);
+  const [total, setTotal] = useState([]);
   dates.map((item) => {
     console.log(item.format());
   });
@@ -99,9 +99,8 @@ const Subs = () => {
     };
     GetAllCategory();
   }, []);
-  console.log("Category",list);
-  
-   
+  console.log("Category", list);
+
   // console.log(protein)
   // console.log(calorie)
 
@@ -207,8 +206,7 @@ const Subs = () => {
       )
     );
   };
-  console.log("SUNDAY MEAL INPUT",sundayMeal)
-
+  console.log("SUNDAY MEAL INPUT", sundayMeal);
 
   console.log("Sunday Meal", sundayMeal);
   console.log("Monday Meal", mondayMeal);
@@ -219,38 +217,42 @@ const Subs = () => {
   console.log("Satursday Meal", satursdayMeal);
   console.log("Sunday Meal", sundayMeal);
   var mealObjectAll = [];
-  sundayMeal.map((item)=> mealObjectAll.push(item));
-  mondayMeal.map((item)=> mealObjectAll.push(item));
-  tuesdayMeal.map((item)=> mealObjectAll.push(item));
-  wednesdayMeal.map((item)=> mealObjectAll.push(item));
-  thursdayMeal.map((item)=> mealObjectAll.push(item));
-  fridayMeal.map((item)=> mealObjectAll.push(item));
-  satursdayMeal.map((item)=> mealObjectAll.push(item));
-  console.log("Meal oBJECT",mealObjectAll)
-// console.log("ALL MEALS",mealObjectAll)
-const getValues1=()=>{
-   
-    const res = Array.from(mealObjectAll.reduce(
-      (m, {mealName, inputValue}) => m.set(mealName, (m.get(mealName) || 0) + inputValue), new Map
-    ), ([mealName, inputValue]) => ({mealName, inputValue}));
+  sundayMeal.map((item) => mealObjectAll.push(item));
+  mondayMeal.map((item) => mealObjectAll.push(item));
+  tuesdayMeal.map((item) => mealObjectAll.push(item));
+  wednesdayMeal.map((item) => mealObjectAll.push(item));
+  thursdayMeal.map((item) => mealObjectAll.push(item));
+  fridayMeal.map((item) => mealObjectAll.push(item));
+  satursdayMeal.map((item) => mealObjectAll.push(item));
+  console.log("Meal oBJECT", mealObjectAll);
+  // console.log("ALL MEALS",mealObjectAll)
+  const getValues1 = () => {
+    const res = Array.from(
+      mealObjectAll.reduce(
+        (m, { mealName, inputValue }) =>
+          m.set(mealName, (m.get(mealName) || 0) + inputValue),
+        new Map()
+      ),
+      ([mealName, inputValue]) => ({ mealName, inputValue })
+    );
     setTotal(res);
-    console.log(res)
-  // mealObjectAll.reduce((acc, curr) => {
-  //   let findIndex = acc.findIndex(item => item.mealName === curr.mealName);
-  
-  //   if (findIndex === -1) {
-  //     acc.push(curr)
-  //   } else {
-  
-  //     acc[findIndex].inputValue += curr.inputValue
-  //   }
-  //   console.log(acc)
-  //   setTotal(acc);
-  //   // return acc;
-  // }, [])
-  // console.log("SUMM ALL",sumAll)
-}
-console.log("Total",total);
+    console.log(res);
+    // mealObjectAll.reduce((acc, curr) => {
+    //   let findIndex = acc.findIndex(item => item.mealName === curr.mealName);
+
+    //   if (findIndex === -1) {
+    //     acc.push(curr)
+    //   } else {
+
+    //     acc[findIndex].inputValue += curr.inputValue
+    //   }
+    //   console.log(acc)
+    //   setTotal(acc);
+    //   // return acc;
+    // }, [])
+    // console.log("SUMM ALL",sumAll)
+  };
+  console.log("Total", total);
 
   const removeMondayMenu = (index) => {
     const newMenu = mondayMeal.filter((_, i) => i !== index);
@@ -313,7 +315,6 @@ console.log("Total",total);
     return { categoryName: item.mealName };
   });
 
-
   console.log("Sunday Meal Object ", sundayMealObject);
   console.log("Monday Meal Object ", mondayMealObject);
   console.log("Tuesday Meal Object ", tuesdayMealObject);
@@ -322,10 +323,9 @@ console.log("Total",total);
   console.log("Friday Meal Object ", fridayMealObject);
   console.log("Satursday Meal Object ", satursdayMealObject);
   console.log("Sunday Meal Object ", sundayMealObject);
- 
+
   console.log("Before Sunday Meal Object", sundayMealObject);
   const AddSubscriptions = async () => {
-    
     const weekday = [
       "Sunday",
       "Monday",
@@ -1218,8 +1218,14 @@ console.log("Total",total);
         count = count + 1;
       }
     }
-    console.log("Skip Dates",dates.map((date)=> date.format()))
-    console.log("Before Skip Array",arr.map((item)=> item));
+    console.log(
+      "Skip Dates",
+      dates.map((date) => date.format())
+    );
+    console.log(
+      "Before Skip Array",
+      arr.map((item) => item)
+    );
     var j = 0;
     if (dates.length != 0) {
       for (let i = 0; i < arr.length; i++) {
@@ -1227,7 +1233,7 @@ console.log("Total",total);
           var skipdate = dates[j].format();
           console.log("Skip date", skipdate);
           if (skipdate === arr[i].date) {
-            console.log("yes its equal",i)
+            console.log("yes its equal", i);
             arr.splice(i, 1);
             i--;
             j = j + 1;
@@ -1239,7 +1245,10 @@ console.log("Total",total);
       }
     }
 
-    console.log("After Skip",arr.map((item)=> item));
+    console.log(
+      "After Skip",
+      arr.map((item) => item)
+    );
 
     const addSubs = {
       requestedClientId: requestedNewClientId,
@@ -1247,7 +1256,12 @@ console.log("Total",total);
     };
     console.log(addSubs);
     const header = { "Content-Type": "application/json" };
- await axios.post("http://localhost:8001/api/subscriptions/addbulksubscriptions",addSubs).then((res) => {
+    await axios
+      .post(
+        "http://localhost:8001/api/subscriptions/addbulksubscriptions",
+        addSubs
+      )
+      .then((res) => {
         toastmessage("New Subscription is Created!", "success");
       })
       .catch((err) => {
@@ -1343,35 +1357,37 @@ console.log("Total",total);
             Last Subscriptions date:
           </Row>
           <Row>
-              <Col>
-                   
-                <Table>
-                  {list.map(({ id, name }) => {
-                    return (
-                      <tbody>
-                        <tr>
-                          
-                          <td>{name}</td>
-                          {total.map((item)=>{
-                            if(item.mealName == name){
-                              return (
-                                <tr>
-                                      <td>{item.inputValue}</td>
-                                  </tr>
-                              )
-                            }
-                          })}
+            <Col>
+              <Table>
+                {list.map(({ id, name }) => {
+                  return (
+                    <tbody>
+                      <tr>
+                        <td>{name}</td>
+                        {total.map((item) => {
+                          if (item.mealName == name) {
+                            return (
+                              <tr>
+                                <td>{item.inputValue}</td>
+                              </tr>
+                            );
+                          }
+                        })}
+                      </tr>
+                    </tbody>
+                  );
+                })}
+              </Table>
+            </Col>
+          </Row>
 
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                  </Table>
-              </Col>
-            </Row>
-         
           <Col>
-            <Button onClick={()=> {getValues1();}} variant="success">
+            <Button
+              onClick={() => {
+                getValues1();
+              }}
+              variant="success"
+            >
               Calculate
             </Button>
           </Col>
